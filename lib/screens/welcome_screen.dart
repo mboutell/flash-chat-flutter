@@ -3,7 +3,6 @@ import 'package:flash_chat/components/padded_button.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
-import '../constants.dart';
 
 class WelcomeScreen extends StatefulWidget {
   @override

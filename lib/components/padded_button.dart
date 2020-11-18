@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../constants.dart';
-
 class PaddedButton extends StatelessWidget {
   final String text;
   final Function onPressedAction;
@@ -25,9 +23,7 @@ class PaddedButton extends StatelessWidget {
           onPressed: onPressedAction,
           minWidth: 200.0,
           height: 42.0,
-          child: Text(
-            this.text,
-          ),
+          child: Text(this.text, style: TextStyle(color: Colors.white)),
         ),
       ),
     );
