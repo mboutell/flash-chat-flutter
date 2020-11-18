@@ -17,3 +17,10 @@ const kMessageContainerDecoration = BoxDecoration(
     top: BorderSide(color: Colors.lightBlueAccent, width: 2.0),
   ),
 );
+
+const kRouteLogin = "login";
+const kRouteWelcome = "welcome";
+const kRouteRegistration = "registration";
+const kRouteChat = "chat";
+
+const kTagLogo = "logo";
