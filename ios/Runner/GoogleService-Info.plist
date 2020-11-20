@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>236661895022-9g6n3laq7paci6hkvn999k773o795eu2.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.236661895022-9g6n3laq7paci6hkvn999k773o795eu2</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCJ7obrGlS7Csb4pLiGJX91D-bkkEYlMeE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>236661895022</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>edu.rosehulman.boutell.flashchat</string>
+	<key>PROJECT_ID</key>
+	<string>boutell-flash-chat</string>
+	<key>STORAGE_BUCKET</key>
+	<string>boutell-flash-chat.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:236661895022:ios:f132fd5784a533b15c5b7f</string>
+	<key>DATABASE_URL</key>
+	<string>https://boutell-flash-chat.firebaseio.com</string>
+</dict>
+</plist>
