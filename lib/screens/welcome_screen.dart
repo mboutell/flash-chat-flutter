@@ -1,4 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flash_chat/components/padded_button.dart';
 import 'package:flutter/material.dart';
 
@@ -17,6 +18,9 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   @override
   void initState() {
     super.initState();
+
+    Firebase.initializeApp();
+
     controller = AnimationController(
       duration: Duration(seconds: 1),
       vsync: this,

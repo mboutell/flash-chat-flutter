@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "236661895022",
+    "firebase_url": "https://boutell-flash-chat.firebaseio.com",
+    "project_id": "boutell-flash-chat",
+    "storage_bucket": "boutell-flash-chat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:236661895022:android:90be53078ea38c755c5b7f",
+        "android_client_info": {
+          "package_name": "edu.rosehulman.boutell.flashchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "236661895022-0enhcpsjvbr4lsinke1uvs378777pk60.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBuoo_1chrhLbL_y4oW03WACUd0tz-ens"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "236661895022-0enhcpsjvbr4lsinke1uvs378777pk60.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
