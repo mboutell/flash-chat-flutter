@@ -1,21 +1,51 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flash_chat/managers/auth_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:flash_chat/screens/welcome_screen.dart';
-import 'package:flash_chat/screens/login_screen.dart';
-import 'package:flash_chat/screens/registration_screen.dart';
-import 'package:flash_chat/screens/chat_screen.dart';
-
 import 'constants.dart';
 import 'screens/chat_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/registration_screen.dart';
 import 'screens/welcome_screen.dart';
 
-void main() => runApp(FlashChat());
+// Pattern from https://firebase.flutter.dev/docs/overview
 
-class FlashChat extends StatelessWidget {
+void main() {
+  runApp(App());
+}
+
+class App extends StatefulWidget {
+  _AppState createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  bool _initialized = false;
+  bool _error = false;
+
+  void initializeFlutterFire() async {
+    try {
+      // Wait for Firebase to initialize
+      await Firebase.initializeApp();
+      setState(() {
+        print("finished initializing");
+        _initialized = true;
+      });
+    } catch (e) {
+      setState(() {
+        print("error");
+        _error = true;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    initializeFlutterFire();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    var materialApp = MaterialApp(
       theme: ThemeData.light(),
       routes: {
         kRouteLogin: (context) => LoginScreen(),
@@ -25,5 +55,17 @@ class FlashChat extends StatelessWidget {
       },
       initialRoute: kRouteWelcome,
     );
+
+    if (_error) {
+      return materialApp;
+    }
+
+    // Show a loader until FlutterFire is initialized
+    if (!_initialized) {
+      return materialApp;
+    }
+
+    AuthManager().beginListening();
+    return materialApp;
   }
 }

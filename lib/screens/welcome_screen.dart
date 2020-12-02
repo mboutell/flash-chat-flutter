@@ -1,6 +1,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flash_chat/components/padded_button.dart';
+import 'package:flash_chat/managers/auth_manager.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
@@ -19,7 +20,9 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   void initState() {
     super.initState();
 
-    Firebase.initializeApp();
+    if (AuthManager().isSignedIn) {
+      Navigator.pushNamed(context, kRouteChat);
+    }
 
     controller = AnimationController(
       duration: Duration(seconds: 1),
@@ -42,6 +45,28 @@ class _WelcomeScreenState extends State<WelcomeScreen>
 
     controller.addListener(() {
       setState(() {});
+    });
+
+    // AuthManager().listenForRedirects();
+    checkForRedirect();
+  }
+
+  void checkForRedirect() {
+    print("Checking for redirect in welcome screen");
+    if (AuthManager().isSignedIn) {
+      print("Redirect without listener");
+      Navigator.pushNamed(context, kRouteChat);
+      return;
+    } else {
+      print("No user now, use the listener");
+    }
+
+    AuthManager().setListener(() {
+      if (AuthManager().isSignedIn) {
+        print("Redirect with listener");
+        Navigator.pushNamed(context, kRouteChat);
+        AuthManager().stopListening();
+      }
     });
   }
 

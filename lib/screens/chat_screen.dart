@@ -1,3 +1,4 @@
+import 'package:flash_chat/managers/auth_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flash_chat/constants.dart';
 
@@ -9,6 +10,7 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
+    print("building chat screen");
     return Scaffold(
       appBar: AppBar(
         leading: null,
@@ -17,6 +19,7 @@ class _ChatScreenState extends State<ChatScreen> {
               icon: Icon(Icons.close),
               onPressed: () {
                 //Implement logout functionality
+                AuthManager().signOut();
               }),
         ],
         title: Text('⚡️Chat'),
