@@ -47,3 +47,8 @@ const kRouteRegistration = "registration";
 const kRouteChat = "chat";
 
 const kTagLogo = "logo";
+
+// CONSIDER: Move to MessagesManager?
+const kFbMessagesPath = "messages";
+const kFbMessageText = "text";
+const kFbMessageSenderUid = "senderUid";

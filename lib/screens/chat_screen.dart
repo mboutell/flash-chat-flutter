@@ -1,4 +1,5 @@
 import 'package:flash_chat/managers/auth_manager.dart';
+import 'package:flash_chat/managers/messages_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flash_chat/constants.dart';
 
@@ -8,6 +9,20 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  String message;
+
+  @override
+  void initState() {
+    super.initState();
+    print("User in chat: ${AuthManager().email}");
+    MessagesManager().beginListening(() {
+      print("Callback got something on the stream");
+      for (int k = 0; k < MessagesManager().length(); k++) {
+        print("Message $k is ${MessagesManager().getMessageAt(k)}");
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     print("building chat screen");
@@ -20,6 +35,7 @@ class _ChatScreenState extends State<ChatScreen> {
               onPressed: () {
                 //Implement logout functionality
                 AuthManager().signOut();
+                Navigator.pop(context);
               }),
         ],
         title: Text('⚡️Chat'),
@@ -39,6 +55,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     child: TextField(
                       onChanged: (value) {
                         //Do something with the user input.
+                        message = value;
                       },
                       decoration: kMessageTextFieldDecoration,
                     ),
@@ -46,6 +63,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   FlatButton(
                     onPressed: () {
                       //Implement send functionality.
+                      MessagesManager().addMessage(message, AuthManager().uid);
                     },
                     child: Text(
                       'Send',

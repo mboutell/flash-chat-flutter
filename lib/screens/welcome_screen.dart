@@ -1,5 +1,4 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flash_chat/components/padded_button.dart';
 import 'package:flash_chat/managers/auth_manager.dart';
 import 'package:flutter/material.dart';
@@ -120,6 +119,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
               text: "Log in",
               onPressedAction: () {
                 //Go to login screen.
+                AuthManager().stopListening();
                 Navigator.pushNamed(context, kRouteLogin);
               },
               color: Colors.lightBlueAccent,
@@ -128,6 +128,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
               text: "Register",
               onPressedAction: () {
                 //Go to registration screen.
+                AuthManager().stopListening();
                 Navigator.pushNamed(context, kRouteRegistration);
               },
               color: Colors.blueAccent,
