@@ -50,4 +50,6 @@ class MessagesManager {
   Message getMessageAt(int index) => Message(_docs[index]);
 
   int length() => _docs.length;
+
+  Stream get stream => _ref.snapshots();
 }
