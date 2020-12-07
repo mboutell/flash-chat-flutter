@@ -7,7 +7,7 @@ class MessagesManager {
   Function _callback;
   bool _error = true;
   bool _waiting = true;
-  var docs = List<DocumentSnapshot>();
+  var _docs = List<DocumentSnapshot>();
 
   static final MessagesManager _instance =
       MessagesManager._privateConstructor();
@@ -27,8 +27,8 @@ class MessagesManager {
     var onData = (querySnapshot) {
       _error = false;
       _waiting = false;
-      docs = querySnapshot.docs;
-      for (var doc in docs) {
+      _docs = querySnapshot.docs;
+      for (var doc in _docs) {
         print(doc);
       }
       if (callback != null) {
@@ -64,10 +64,11 @@ class MessagesManager {
 
   Message getMessageAt(int index) => Message(docs[index]);
 
-  int length() => docs.length;
+  int length() => _docs.length;
 
   Stream get stream => _ref.snapshots();
 
   bool get error => _error;
   bool get waiting => _waiting;
+  List<DocumentSnapshot> get docs => _docs;
 }
