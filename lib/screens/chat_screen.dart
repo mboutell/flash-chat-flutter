@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flash_chat/Models/Message.dart';
 import 'package:flash_chat/managers/auth_manager.dart';
@@ -12,6 +14,7 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final messageTextController = TextEditingController();
+  final scrollController = ScrollController();
   String message;
 
   @override
@@ -19,10 +22,11 @@ class _ChatScreenState extends State<ChatScreen> {
     super.initState();
     print("User in chat: ${AuthManager().email}");
     MessagesManager().beginListening(() {
-      print("Callback got something on the stream");
-      for (int k = 0; k < MessagesManager().length(); k++) {
-        print("Message $k is ${MessagesManager().getMessageAt(k)}");
-      }
+      // print("Callback got something on the stream");
+      // for (int k = 0; k < MessagesManager().length(); k++) {
+      //   print("Message $k is ${MessagesManager().getMessageAt(k)}");
+      // }
+      setState(() {/* no-op */});
     });
   }
 
@@ -49,38 +53,7 @@ class _ChatScreenState extends State<ChatScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            StreamBuilder<QuerySnapshot>(
-              stream: MessagesManager().stream,
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return Text("Something went wrong");
-                }
-
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Expanded(
-                    child: Center(
-                        child: CircularProgressIndicator(
-                      backgroundColor: Colors.lightBlueAccent,
-                    )),
-                  );
-                }
-
-                // snapshot is Flutter's AsyncSnapshot, it's .data is a FB querySnapshot.
-                final docs = snapshot.data.docs;
-                List<MessageBubble> messageWidgets = [];
-                for (var doc in docs) {
-                  var message = Message(doc);
-                  final messageBubble = MessageBubble(message);
-                  messageWidgets.add(messageBubble);
-                }
-                return Expanded(
-                  child: ListView(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                    children: messageWidgets,
-                  ),
-                );
-              },
-            ),
+            getMessageViews(),
             Container(
               decoration: kMessageContainerDecoration,
               child: Row(
@@ -112,6 +85,39 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget getMessageViews() {
+    if (MessagesManager().error) {
+      return Expanded(child: Center(child: Text("Something went wrong")));
+    }
+
+    if (MessagesManager().waiting) {
+      return Expanded(
+        child: Center(
+            child: CircularProgressIndicator(
+          backgroundColor: Colors.lightBlueAccent,
+        )),
+      );
+    }
+
+    // If I used a StreamBuilder,
+    // snapshot is Flutter's AsyncSnapshot, it's .data is a FB querySnapshot.
+
+    Timer(
+      Duration(milliseconds: 0),
+      () => scrollController.jumpTo(scrollController.position.maxScrollExtent),
+    );
+
+    return Expanded(
+      child: ListView(
+        controller: scrollController,
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+        children: MessagesManager().docs.map((DocumentSnapshot doc) {
+          return MessageBubble(Message(doc));
+        }).toList(),
       ),
     );
   }

@@ -5,7 +5,9 @@ import 'package:flash_chat/constants.dart';
 class MessagesManager {
   CollectionReference _ref;
   Function _callback;
-  var _docs = List<DocumentSnapshot>();
+  bool _error = true;
+  bool _waiting = true;
+  var docs = List<DocumentSnapshot>();
 
   static final MessagesManager _instance =
       MessagesManager._privateConstructor();
@@ -22,15 +24,27 @@ class MessagesManager {
   void beginListening(callback) {
     _callback = callback;
 
-    _ref.limit(50).snapshots().listen((querySnapshot) {
-      _docs = querySnapshot.docs;
-      for (var doc in _docs) {
+    var onData = (querySnapshot) {
+      _error = false;
+      _waiting = false;
+      docs = querySnapshot.docs;
+      for (var doc in docs) {
         print(doc);
       }
       if (callback != null) {
         _callback();
       }
+    };
+
+    _ref.limit(50).orderBy(kFbMessageCreated).snapshots().listen(onData,
+        onError: (error) {
+      _logError(error);
     });
+  }
+
+  void _logError(var error) {
+    print("Error: $error");
+    _error = true;
   }
 
   void stopListening() {
@@ -42,14 +56,18 @@ class MessagesManager {
         .add({
           kFbMessageText: text,
           kFbMessageSenderUid: uid,
+          kFbMessageCreated: FieldValue.serverTimestamp(),
         })
         .then((value) => print("Message Added"))
         .catchError((error) => print("Failed to add message: $error"));
   }
 
-  Message getMessageAt(int index) => Message(_docs[index]);
+  Message getMessageAt(int index) => Message(docs[index]);
 
-  int length() => _docs.length;
+  int length() => docs.length;
 
   Stream get stream => _ref.snapshots();
+
+  bool get error => _error;
+  bool get waiting => _waiting;
 }

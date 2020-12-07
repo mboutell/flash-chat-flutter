@@ -52,3 +52,4 @@ const kTagLogo = "logo";
 const kFbMessagesPath = "messages";
 const kFbMessageText = "text";
 const kFbMessageSenderUid = "senderUid";
+const kFbMessageCreated = "created";
